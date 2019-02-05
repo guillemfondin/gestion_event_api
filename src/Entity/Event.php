@@ -38,6 +38,12 @@ class Event
      */
     private $nb_participants;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sport", inversedBy="events")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $sport;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -87,6 +93,18 @@ class Event
     public function setNbParticipants(int $nb_participants): self
     {
         $this->nb_participants = $nb_participants;
+
+        return $this;
+    }
+
+    public function getSport(): ?Sport
+    {
+        return $this->sport;
+    }
+
+    public function setSport(?Sport $sport): self
+    {
+        $this->sport = $sport;
 
         return $this;
     }
