@@ -12,6 +12,8 @@
         "symfony/framework-bundle": "4.2.*",
         "symfony/maker-bundle": "^1.11",
         "symfony/orm-pack": "^1.0",
+        "symfony/security-bundle": "4.2.*",
+        "symfony/security-guard": "4.2.*",
         "symfony/yaml": "4.2.*"
     },
     "config": {
