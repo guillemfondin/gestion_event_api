@@ -12,36 +12,14 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $citys = ['Nantes', 'Paris', 'Tokyo', 'New York', 'Angoulème'];
+        $sports = ['Judo', 'Foot', 'Rugby', 'Basket', 'Hockey', 'Karaté'];
 
-        $sport = new Sport();
-        $sport->setName('Judo');
-        $manager->persist($sport);
-        $sports[] = $sport;
-
-        $sport = new Sport();
-        $sport->setName('Foot');
-        $manager->persist($sport);
-        $sports[] = $sport;
-
-        $sport = new Sport();
-        $sport->setName('Rugby');
-        $manager->persist($sport);
-        $sports[] = $sport;
-
-        $sport = new Sport();
-        $sport->setName('Tennis');
-        $manager->persist($sport);
-        $sports[] = $sport;
-
-        $sport = new Sport();
-        $sport->setName('Basket');
-        $manager->persist($sport);
-        $sports[] = $sport;
-
-        $sport = new Sport();
-        $sport->setName('Hockey');
-        $manager->persist($sport);
-        $sports[] = $sport;
+        foreach ($sports as $value) {
+            $sport = new Sport();
+            $sport->setName($value);
+            $manager->persist($sport);
+            $sportsEntity[] = $sport;
+        }
 
         for ($i = 1; $i <= 8; $i++) {
             $event = new Event();
@@ -49,7 +27,7 @@ class AppFixtures extends Fixture
                   ->setDate(new \DateTime())
                   ->setLocation($citys[mt_rand(0,4)])
                   ->setNbParticipants(mt_rand(3, 100))
-                  ->setSport($sports[mt_rand(0,count($sports) - 1)])
+                  ->setSport($sportsEntity[mt_rand(0, count($sportsEntity) - 1)])
             ;
             $manager->persist($event);
         }
