@@ -4,13 +4,34 @@ namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Entity\Sport;
 use App\Entity\Event;
+use App\Entity\User;
 
 class AppFixtures extends Fixture
 {
+
+    public function __construct(UserPasswordEncoderInterface $encoder) {
+        $this->encoder = $encoder;
+    }
+
     public function load(ObjectManager $manager)
     {
+        $user = new User();
+        $user->setEmail('g.fondin@agence-massai.fr')
+             ->setPassword($this->encoder->encodePassword($user, 'password'))
+             ->setRoles(['ROLE_ADMIN'])
+        ;
+        $manager->persist($user);
+
+        $user = new User();
+        $user->setEmail('user@user.fr')
+             ->setPassword($this->encoder->encodePassword($user, 'password'))
+             ->setRoles(['ROLE_USER'])
+        ;
+        $manager->persist($user);
+
         $citys = ['Nantes', 'Paris', 'Tokyo', 'New York', 'Angoulème'];
         $sports = ['Judo', 'Foot', 'Rugby', 'Basket', 'Hockey', 'Karaté'];
 

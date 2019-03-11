@@ -1,0 +1,32 @@
+.hover-img {
+    overflow: hidden;
+}
+
+.hover-img img {
+    display:block;
+    position:relative;
+}
+
+.card img {
+    transition:all .4s linear;
+}
+
+.card:hover img {
+    transform:scale(1.2);
+}
+
+.addButton {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 50px;
+    transition:all .2s linear;
+}
+
+.addButton a {
+    border-radius: 50%;
+}
+
+.addButton:hover {
+    transform:scale(1.1);
+}

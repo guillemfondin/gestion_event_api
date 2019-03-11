@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ event.name }}{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-4 my-3 fade-in">
+                <img src="http://placehold.it/340x200" class="card-img-top" alt="{{ event.name }}">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <div class="row">
+                        <button data-toggle="modal" data-target="#edit_event" class="btn btn-primary mt-3 ml-3">Modifier</button>
+                        <a href="{{ path('event_delete', {'id': event.id }) }}" class="btn btn-outline-danger mt-3 ml-3" onclick="return confirm(`Êtes vous sûr de vouloir supprimer l'évènement ?`)">Supprimer</a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-8 fade-right">
+                <h1 class="pt-1">{{ event.name }}</h1>
+                <p class="font-italic">le {{ event.date | date('d/m/Y') }} à {{ event.location }}</p>
+                <p>Nombre de participants maximum : {{ event.nbParticipants }}</p>
+                <p>Sport : {{ event.sport.name }}</p>
+            </div>
+        </div>
+    </div>
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="modal fade" id="edit_event" tabindex="-1" role="dialog" aria-labelledby="edit_eventLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="edit_eventLabel">Nouvel évènement</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {{ form_start(form) }}
+                        <div class="modal-body">
+                            {{ form_widget(form) }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-success">Mettre à jour</button>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

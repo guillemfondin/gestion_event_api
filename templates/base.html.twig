@@ -4,9 +4,13 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
+        <link rel="stylesheet" href="{{ asset('build/app.css') }}">
     </head>
     <body>
+        {% include 'partials/header.html.twig' %}
         {% block body %}{% endblock %}
+        {% include 'partials/footer.html.twig' %}
+        <script src="{{ asset('build/app.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

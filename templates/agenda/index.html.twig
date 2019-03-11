@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Calendrier{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <div class="row">
+            {% for event in events %}
+                <div class="col-4 my-3 d-flex justify-content-center fade-in">
+                    <div class="card" style="width: 18rem;">
+                        <div class="hover-img">
+                            <img src="http://placehold.it/340x200" class="card-img-top" alt="{{ event.name }}">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ event.name }}</h5>
+                            <p class="card-text">
+                                le {{ event.date | date('d/m/Y') }} à {{ event.location }}
+                            </p>
+                            <a href="{{ path('event_single', {'id': event.id}) }}" class="btn btn-primary">Voir</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="addButton">
+            <a href="#" data-toggle="modal" data-target="#add_event" class="addButtonLink bg-primary text-light p-3"><i class="fas fa-plus"></i></a>
+        </div>
+        <div class="modal fade" id="add_event" tabindex="-1" role="dialog" aria-labelledby="add_eventLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="add_eventLabel">Nouvel évènement</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {{ form_start(form) }}
+                        <div class="modal-body">
+                            {{ form_widget(form) }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-success">Publier</button>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
