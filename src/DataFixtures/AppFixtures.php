@@ -18,16 +18,16 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $user = new User();
-        $user->setEmail('g.fondin@agence-massai.fr')
-             ->setPassword($this->encoder->encodePassword($user, 'password'))
-             ->setRoles(['ROLE_ADMIN'])
+        $admin = new User();
+        $admin->setEmail('admin@jury.fr')
+              ->setPassword($this->encoder->encodePassword($admin, 'jury@'))
+              ->setRoles(['ROLE_ADMIN'])
         ;
-        $manager->persist($user);
+        $manager->persist($admin);
 
         $user = new User();
-        $user->setEmail('user@user.fr')
-             ->setPassword($this->encoder->encodePassword($user, 'password'))
+        $user->setEmail('user@jury.fr')
+             ->setPassword($this->encoder->encodePassword($user, 'jury@'))
              ->setRoles(['ROLE_USER'])
         ;
         $manager->persist($user);
