@@ -12,10 +12,10 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.7.2",
+        "@fortawesome/fontawesome-free": "^5.8.2",
         "bootstrap": "^4.3.1",
-        "jquery": "^3.3.1",
-        "popper.js": "^1.14.7",
+        "jquery": "^3.4.1",
+        "popper.js": "^1.15.0",
         "scrollreveal": "^4.0.5"
     }
 }
