@@ -1,0 +1,56 @@
+stages:
+  - build
+  - deploy
+
+build_composer:
+  stage: build
+  image: composer:latest
+  environment: Staging
+  tags:
+    - docker
+  artifacts:
+    paths:
+      - vendor/
+  cache:
+    paths:
+      - ./vendor
+  script:
+    - composer install --optimize-autoloader
+
+build_npm:
+  stage: build
+  image: node:latest
+  environment: Staging
+  tags:
+    - docker
+  artifacts:
+    paths:
+      - public/build/
+  cache:
+    paths:
+      - ./public/build
+  script:
+    - npm install
+    - npm audit fix
+    - npm run build
+
+deploy:
+  stage: deploy
+  image: alpine:latest
+  only:
+    - master
+  tags:
+    - private
+    - docker
+  before_script:
+    - apk update && apk add openssh-client sshpass rsync
+  script:
+    - sshpass -V
+    - export SSHPASS=${USER_PASS}
+    - sshpass -e rsync -avzuh -e "ssh -o StrictHostKeyChecking=no" * gestioneventbts@195.95.225.26:../../web/
+    - sshpass -e ssh gestioneventbts@195.95.225.26 mv ../../web/env.dist ../../web/.env
+    - sshpass -e ssh gestioneventbts@195.95.225.26 rm ../../web/public/.htaccess
+    - sshpass -e ssh gestioneventbts@195.95.225.26 mv ../../web/public/htaccess.dist ../../web/public/.htaccess
+    - sshpass -e ssh gestioneventbts@195.95.225.26 php7.2 ../../web/bin/console doctrine:migrations:migrate
+    - sshpass -e ssh gestioneventbts@195.95.225.26 php7.2 ../../web/bin/console cache:clear
+    - sshpass -e ssh gestioneventbts@195.95.225.26 rm -rf  ../../web/var/cache/prod
